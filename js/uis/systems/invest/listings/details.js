@@ -1,67 +1,67 @@
 export default class ListingDetails extends HTMLElement {
-	constructor() {
-		super();
-		this.shadowObj = this.attachShadow({ mode: "open" });
-		this.utils = window.app.utils;
-		this.soldPercentage = this.getPercentageSold(this.getAttribute("sold"), this.getAttribute("shares"));
-		this.available = this.getRemainingShares(this.getAttribute("sold"), this.getAttribute("shares"));
-		this.render();
-	}
-	
-	render() {
-		this.shadowObj.innerHTML = this.getTemplate();
-	}
-	
-	// noinspection JSUnusedGlobalSymbols
-	connectedCallback() {
-		const form = this.shadowObj.querySelector(".form");
-		
-		// add event listeners
-		this.inputListener(form);
-	}
-	
-	getPercentageSold = (sold, total) => {
-		const parsedSold = this.utils.number.parse(sold);
-		const parsedTotal = this.utils.number.parse(total);
-		return this.calculatePercentage(parsedSold, parsedTotal);
-	}
-	
-	getRemainingShares = (sold, total) => {
-		const parsedSold = this.utils.number.parse(sold);
-		const parsedTotal = this.utils.number.parse(total);
-		return parsedTotal - parsedSold;
-	}
-	
-	calculatePercentage = (num, total) => {
-		if (total === 0) return 0;
-		if (num >= total) return 100;
-		return ((num / total) * 100).toFixed(2);
-	}
-	
-	capitalize = (str) => {
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-	
-	getTemplate = () => {
-		// Show HTML Here
-		return `
+  constructor() {
+    super();
+    this.shadowObj = this.attachShadow({ mode: "open" });
+    this.utils = window.app.utils;
+    this.soldPercentage = this.getPercentageSold(this.getAttribute("sold"), this.getAttribute("shares"));
+    this.available = this.getRemainingShares(this.getAttribute("sold"), this.getAttribute("shares"));
+    this.render();
+  }
+
+  render() {
+    this.shadowObj.innerHTML = this.getTemplate();
+  }
+
+  // noinspection JSUnusedGlobalSymbols
+  connectedCallback() {
+    const form = this.shadowObj.querySelector(".form");
+
+    // add event listeners
+    this.inputListener(form);
+  }
+
+  getPercentageSold = (sold, total) => {
+    const parsedSold = this.utils.number.parse(sold);
+    const parsedTotal = this.utils.number.parse(total);
+    return this.calculatePercentage(parsedSold, parsedTotal);
+  }
+
+  getRemainingShares = (sold, total) => {
+    const parsedSold = this.utils.number.parse(sold);
+    const parsedTotal = this.utils.number.parse(total);
+    return parsedTotal - parsedSold;
+  }
+
+  calculatePercentage = (num, total) => {
+    if (total === 0) return 0;
+    if (num >= total) return 100;
+    return ((num / total) * 100).toFixed(2);
+  }
+
+  capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  getTemplate = () => {
+    // Show HTML Here
+    return `
       ${this.getBody()}
       ${this.getStyles()}
     `;
-	}
-	
-	getBody = () => {
-		return /* html */`
+  }
+
+  getBody = () => {
+    return /* html */`
       <div class="content">
         ${this.getHead()}
         ${this.getInfo()}
         ${this.getForm(this.available, this.utils.number.parse(this.getAttribute("price")))}
       </div>
     `;
-	}
-	
-	getHead = () => {
-		return /* html */`
+  }
+
+  getHead = () => {
+    return /* html */`
       <div class="head">
         <div class="avatar">
           <img class="image" src="${this.getAttribute("user-picture")}" alt="User Image" />
@@ -72,10 +72,10 @@ export default class ListingDetails extends HTMLElement {
         </span>
       </div>
     `;
-	}
-	
-	getInfo = () => {
-		return /* html */`
+  }
+
+  getInfo = () => {
+    return /* html */`
       <div class="desc">
         <div class="investment">
           <h2 class="name">${this.getAttribute("shares-name")}</h2>
@@ -87,10 +87,10 @@ export default class ListingDetails extends HTMLElement {
         ${this.getShares()}
       </div>
     `;
-	}
-	
-	getDetails = () => {
-		return /* html */`
+  }
+
+  getDetails = () => {
+    return /* html */`
       <div class="info">
         <div class="initial">
           <span class="label">IPO Price</span>
@@ -108,10 +108,10 @@ export default class ListingDetails extends HTMLElement {
         </div>
       </div>
     `;
-	}
-	
-	getPrice = () => {
-		return /* html */`
+  }
+
+  getPrice = () => {
+    return /* html */`
       <div class="info">
         <div class="price">
           <span class="value">${this.getAttribute("price")} EAC</span>
@@ -119,10 +119,10 @@ export default class ListingDetails extends HTMLElement {
         </div>
       </div>
     `;
-	}
-	
-	getShares = () => {
-		return /* html */`
+  }
+
+  getShares = () => {
+    return /* html */`
       <div class="listed">
         <div class="shares">
           <span class="value">${this.utils.number.withCommas(this.getAttribute("shares"))}</span>
@@ -132,29 +132,29 @@ export default class ListingDetails extends HTMLElement {
         ${this.getAvailable(this.available)}
       </div>
     `;
-	}
-	
-	getDesc = () => {
-		return /* html */`
+  }
+
+  getDesc = () => {
+    return /* html */`
       <div class="description">
         ${this.innerHTML}
       </div>
     `;
-	}
-	
-	getAvailable = available => {
-		const availableValue = available <= 0 ? 0 : this.utils.number.withCommas(available);
-		return /* html */`
+  }
+
+  getAvailable = available => {
+    const availableValue = available <= 0 ? 0 : this.utils.number.withCommas(available);
+    return /* html */`
       <div class="available">
         <span class="value">${availableValue}</span>
         <span class="label">Available</span>
       </div>
     `;
-	}
-	
-	getForm = (available, price) => {
-		const total = available * price;
-		return /* html */`
+  }
+
+  getForm = (available, price) => {
+    const total = available * price;
+    return /* html */`
       <form class="form">
         <div class="head">
           <h2 class="title">Quote what you want to buy</h2>
@@ -196,176 +196,176 @@ export default class ListingDetails extends HTMLElement {
         </div>
       </form>
     `;
-	}
-	
-	calculateReceive = (pay, price) => {
-		const receive = (pay / price).toFixed(4);
-		return parseFloat(receive);
-	}
-	
-	calculateMaxPay = (shares, price) => {
-		return shares * price;
-	}
-	
-	inputListener = form => {
-		const pay = form.querySelector("input[name=pay]");
-		const receive = form.querySelector("input[name=receive]");
-		const all = form.querySelector("button.all");
-		const warn = form.querySelector(".input-group.pay .warning");
-		const receiveWarning = form.querySelector(".input-group.receive .warning");
-		const buy = form.querySelector(".actions > button.buy");
-		let maxShares = this.available;
-		let maxPay = this.calculateMaxPay(maxShares, this.utils.number.parse(this.getAttribute("price")));
-		
-		maxPay = isNaN(maxPay) ? 0 : maxPay;
-		maxShares = isNaN(maxShares) ? 0 : maxShares;
-		
-		const handlePayInput = () => {
-			receiveWarning.style.display = "none";
-			pay.value = pay.value
-				.replace(/[^\d.]/g, '')
-				.replace(/^\./, '')
-				.replace(/(\..*)\./g, '$1')
-				.replace(/^0+(?=\d)/, '')
-				.replace(/(\.\d{4})\d+/g, '$1');
-			
-			const total = this.utils.number.parse(pay.value);
-			const price = this.utils.number.parse(this.getAttribute("price"));
-			const receiveValue = this.calculateReceive(total, price);
-			
-			if (total > maxPay) {
-				warn.classList.add("failed");
-				warn.classList.remove("success");
-				warn.innerHTML = `You can only pay up to <span>${this.utils.number.withCommas(maxPay)} EAC</span>`;
-				warn.style.display = "inline-block";
-				buy.classList.add("disabled");
-				
-				// update receives warning
-				receiveWarning.classList.add("failed");
-				receiveWarning.classList.remove("success");
-				receiveWarning.innerHTML = `You can only buy up to <span>${this.utils.number.withCommas(maxShares)}</span> shares`;
-				receiveWarning.style.display = "inline-block";
-			} else if (total === 0 || isNaN(total) || total < (price * 0.01)) {
-				buy.classList.add("disabled");
-				
-				// update receives warning
-				receiveWarning.classList.add("failed");
-				receiveWarning.classList.remove("success");
-				receiveWarning.innerHTML = `You should buy at least <span>0.01 Shares</span>`;
-				receiveWarning.style.display = "inline-block";
-				
-				// update pay warning
-				warn.classList.add("failed");
-				warn.classList.remove("success");
-				warn.innerHTML = `You should pay at least <span>${this.utils.number.withCommas(price * 0.01)} EAC</span>`;
-				warn.style.display = "inline-block";
-			} else {
-				warn.classList.remove("failed");
-				warn.classList.add("success");
-				warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(total)} EAC</span>`;
-				warn.style.display = "inline-block";
-				buy.classList.remove("disabled");
-				
-				// update receives warning
-				receiveWarning.classList.remove("failed");
-				receiveWarning.classList.add("success");
-				receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(receiveValue)} Shares</span>`;
-				receiveWarning.style.display = "inline-block";
-			}
-			
-			receive.value = total <= maxPay ? receiveValue : "";
-		};
-		
-		const handleAllClick = () => {
-			const available = this.available;
-			const price = this.utils.number.parse(this.getAttribute("price"));
-			const totalPay = this.calculateMaxPay(available, price);
-			
-			form.querySelector(".input-group.pay .warning").style.display = "none";
-			form.querySelector(".input-group.receive .warning").style.display = "none";
-			
-			pay.value = totalPay;
-			receive.value = this.available;
-			buy.classList.remove("disabled");
-			
-			// update receives warning and pay warning
-			receiveWarning.classList.remove("failed");
-			receiveWarning.classList.add("success");
-			receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(available)} Shares</span>`;
-			receiveWarning.style.display = "inline-block";
-			
-			warn.classList.remove("failed");
-			warn.classList.add("success");
-			warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(totalPay)} EAC</span>`;
-			warn.style.display = "inline-block";
-		};
-		
-		const handleReceiveInput = () => {
-			warn.style.display = "none";
-			receive.value = receive.value
-				.replace(/[^\d.]/g, '')
-				.replace(/^\./, '')
-				.replace(/(\..*)\./g, '$1')
-				.replace(/^0+(?=\d)/, '')
-				.replace(/(\.\d{4})\d+/g, '$1');
-			
-			const total = this.utils.number.parse(receive.value);
-			const price = this.utils.number.parse(this.getAttribute("price"));
-			let receiveValue = total * price;
-			
-			// if receive value has more than 4 decimal places round it off to four
-			receiveValue = parseFloat(receiveValue.toFixed(4));
-			
-			if (total > maxShares) {
-				receiveWarning.classList.add("failed");
-				receiveWarning.classList.remove("success");
-				receiveWarning.innerHTML = `You can only buy up to <span>${this.utils.number.withCommas(maxShares)}</span> shares`;
-				receiveWarning.style.display = "inline-block";
-				buy.classList.add("disabled");
-				
-				// update pay warning
-				warn.classList.add("failed");
-				warn.classList.remove("success");
-				warn.innerHTML = `You can only pay up to <span>${this.utils.number.withCommas(receiveValue)} EAC</span>`;
-				warn.style.display = "inline-block";
-			} else if (total === 0 || isNaN(total) || total < 0.01) {
-				buy.classList.add("disabled");
-				
-				// update pay warning
-				warn.classList.add("failed");
-				warn.classList.remove("success");
-				warn.innerHTML = `You should pay at least 0.0001 EAC`;
-				warn.style.display = "inline-block";
-				
-				// update receives warning
-				receiveWarning.classList.add("failed");
-				receiveWarning.classList.remove("success");
-				receiveWarning.innerHTML = `You should buy at least 0.01 Shares`;
-				receiveWarning.style.display = "inline-block";
-			} else {
-				receiveWarning.classList.remove("failed");
-				receiveWarning.classList.add("success");
-				receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(total)} Shares</span>`;
-				receiveWarning.style.display = "inline-block";
-				buy.classList.remove("disabled");
-				
-				// update pay warning
-				warn.classList.remove("failed");
-				warn.classList.add("success");
-				warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(receiveValue)} EAC</span>`;
-				warn.style.display = "inline-block";
-			}
-			
-			pay.value = total <= maxShares ? receiveValue : "";
-		};
-		
-		pay.addEventListener("input", handlePayInput);
-		all.addEventListener("click", handleAllClick);
-		receive.addEventListener("input", handleReceiveInput);
-	};
-	
-	getStyles() {
-		return /* css */`
+  }
+
+  calculateReceive = (pay, price) => {
+    const receive = (pay / price).toFixed(4);
+    return parseFloat(receive);
+  }
+
+  calculateMaxPay = (shares, price) => {
+    return shares * price;
+  }
+
+  inputListener = form => {
+    const pay = form.querySelector("input[name=pay]");
+    const receive = form.querySelector("input[name=receive]");
+    const all = form.querySelector("button.all");
+    const warn = form.querySelector(".input-group.pay .warning");
+    const receiveWarning = form.querySelector(".input-group.receive .warning");
+    const buy = form.querySelector(".actions > button.buy");
+    let maxShares = this.available;
+    let maxPay = this.calculateMaxPay(maxShares, this.utils.number.parse(this.getAttribute("price")));
+
+    maxPay = isNaN(maxPay) ? 0 : maxPay;
+    maxShares = isNaN(maxShares) ? 0 : maxShares;
+
+    const handlePayInput = () => {
+      receiveWarning.style.display = "none";
+      pay.value = pay.value
+        .replace(/[^\d.]/g, '')
+        .replace(/^\./, '')
+        .replace(/(\..*)\./g, '$1')
+        .replace(/^0+(?=\d)/, '')
+        .replace(/(\.\d{4})\d+/g, '$1');
+
+      const total = this.utils.number.parse(pay.value);
+      const price = this.utils.number.parse(this.getAttribute("price"));
+      const receiveValue = this.calculateReceive(total, price);
+
+      if (total > maxPay) {
+        warn.classList.add("failed");
+        warn.classList.remove("success");
+        warn.innerHTML = `You can only pay up to <span>${this.utils.number.withCommas(maxPay)} EAC</span>`;
+        warn.style.display = "inline-block";
+        buy.classList.add("disabled");
+
+        // update receives warning
+        receiveWarning.classList.add("failed");
+        receiveWarning.classList.remove("success");
+        receiveWarning.innerHTML = `You can only buy up to <span>${this.utils.number.withCommas(maxShares)}</span> shares`;
+        receiveWarning.style.display = "inline-block";
+      } else if (total === 0 || isNaN(total) || total < (price * 0.01)) {
+        buy.classList.add("disabled");
+
+        // update receives warning
+        receiveWarning.classList.add("failed");
+        receiveWarning.classList.remove("success");
+        receiveWarning.innerHTML = `You should buy at least <span>0.01 Shares</span>`;
+        receiveWarning.style.display = "inline-block";
+
+        // update pay warning
+        warn.classList.add("failed");
+        warn.classList.remove("success");
+        warn.innerHTML = `You should pay at least <span>${this.utils.number.withCommas(price * 0.01)} EAC</span>`;
+        warn.style.display = "inline-block";
+      } else {
+        warn.classList.remove("failed");
+        warn.classList.add("success");
+        warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(total)} EAC</span>`;
+        warn.style.display = "inline-block";
+        buy.classList.remove("disabled");
+
+        // update receives warning
+        receiveWarning.classList.remove("failed");
+        receiveWarning.classList.add("success");
+        receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(receiveValue)} Shares</span>`;
+        receiveWarning.style.display = "inline-block";
+      }
+
+      receive.value = total <= maxPay ? receiveValue : "";
+    };
+
+    const handleAllClick = () => {
+      const available = this.available;
+      const price = this.utils.number.parse(this.getAttribute("price"));
+      const totalPay = this.calculateMaxPay(available, price);
+
+      form.querySelector(".input-group.pay .warning").style.display = "none";
+      form.querySelector(".input-group.receive .warning").style.display = "none";
+
+      pay.value = totalPay;
+      receive.value = this.available;
+      buy.classList.remove("disabled");
+
+      // update receives warning and pay warning
+      receiveWarning.classList.remove("failed");
+      receiveWarning.classList.add("success");
+      receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(available)} Shares</span>`;
+      receiveWarning.style.display = "inline-block";
+
+      warn.classList.remove("failed");
+      warn.classList.add("success");
+      warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(totalPay)} EAC</span>`;
+      warn.style.display = "inline-block";
+    };
+
+    const handleReceiveInput = () => {
+      warn.style.display = "none";
+      receive.value = receive.value
+        .replace(/[^\d.]/g, '')
+        .replace(/^\./, '')
+        .replace(/(\..*)\./g, '$1')
+        .replace(/^0+(?=\d)/, '')
+        .replace(/(\.\d{4})\d+/g, '$1');
+
+      const total = this.utils.number.parse(receive.value);
+      const price = this.utils.number.parse(this.getAttribute("price"));
+      let receiveValue = total * price;
+
+      // if receive value has more than 4 decimal places round it off to four
+      receiveValue = parseFloat(receiveValue.toFixed(4));
+
+      if (total > maxShares) {
+        receiveWarning.classList.add("failed");
+        receiveWarning.classList.remove("success");
+        receiveWarning.innerHTML = `You can only buy up to <span>${this.utils.number.withCommas(maxShares)}</span> shares`;
+        receiveWarning.style.display = "inline-block";
+        buy.classList.add("disabled");
+
+        // update pay warning
+        warn.classList.add("failed");
+        warn.classList.remove("success");
+        warn.innerHTML = `You can only pay up to <span>${this.utils.number.withCommas(receiveValue)} EAC</span>`;
+        warn.style.display = "inline-block";
+      } else if (total === 0 || isNaN(total) || total < 0.01) {
+        buy.classList.add("disabled");
+
+        // update pay warning
+        warn.classList.add("failed");
+        warn.classList.remove("success");
+        warn.innerHTML = `You should pay at least 0.0001 EAC`;
+        warn.style.display = "inline-block";
+
+        // update receives warning
+        receiveWarning.classList.add("failed");
+        receiveWarning.classList.remove("success");
+        receiveWarning.innerHTML = `You should buy at least 0.01 Shares`;
+        receiveWarning.style.display = "inline-block";
+      } else {
+        receiveWarning.classList.remove("failed");
+        receiveWarning.classList.add("success");
+        receiveWarning.innerHTML = `You will buy <span>${this.utils.number.withCommas(total)} Shares</span>`;
+        receiveWarning.style.display = "inline-block";
+        buy.classList.remove("disabled");
+
+        // update pay warning
+        warn.classList.remove("failed");
+        warn.classList.add("success");
+        warn.innerHTML = `You will spend <span>${this.utils.number.withCommas(receiveValue)} EAC</span>`;
+        warn.style.display = "inline-block";
+      }
+
+      pay.value = total <= maxShares ? receiveValue : "";
+    };
+
+    pay.addEventListener("input", handlePayInput);
+    all.addEventListener("click", handleAllClick);
+    receive.addEventListener("input", handleReceiveInput);
+  };
+
+  getStyles() {
+    return /* css */`
 	    <style>
 	      *,
 	      *:after,
@@ -452,7 +452,7 @@ export default class ListingDetails extends HTMLElement {
           height: 100%;
           object-fit: cover;
         }
-        
+
         .head > .name {
           display: flex;
           flex-flow: column;
@@ -658,7 +658,7 @@ export default class ListingDetails extends HTMLElement {
           padding: 10px 0;
           margin: 0 0 10px;
         }
-        
+
         .form > .head {
           display: none;
           flex-flow: column;
@@ -668,7 +668,7 @@ export default class ListingDetails extends HTMLElement {
           width: 100%;
           padding: 0;
         }
-        
+
         .form > .head > .title {
           font-size: 1.2rem;
           font-weight: 500;
@@ -677,7 +677,7 @@ export default class ListingDetails extends HTMLElement {
           margin: 0;
           line-height: 1.4;
         }
-        
+
         .form > .head > .description {
           display: flex;
           gap: 5px;
@@ -687,7 +687,7 @@ export default class ListingDetails extends HTMLElement {
           color: var(--gray-color);
           font-family: var(--font-read), sans-serif;
         }
-        
+
         .form > .head > .description > b {
           font-weight: 600;
           color: var(--gray-color);
@@ -781,7 +781,7 @@ export default class ListingDetails extends HTMLElement {
         .form > .input-group > .input > .actions > button:hover {
           color: var(--text-color);
         }
-        
+
         .form > .consent {
           display: flex;
           flex-flow: row;
@@ -789,7 +789,7 @@ export default class ListingDetails extends HTMLElement {
           width: 100%;
           padding: 0;
         }
-        
+
         .form > .consent > p {
           margin: 5px 0 0;
           display: flex;
@@ -799,12 +799,12 @@ export default class ListingDetails extends HTMLElement {
           color: var(--gray-color);
           font-family: var(--font-main), sans-serif;
         }
-        
+
         .form > .consent > p b {
           font-weight: 500;
           color: var(--text-color);
         }
-        
+
         .form > .consent > p > svg {
           min-width: 18px;
           max-width: 18px;
@@ -812,11 +812,11 @@ export default class ListingDetails extends HTMLElement {
           margin: -2px 0 0 0;
           color: var(--accent-color);
         }
-        
+
         .form > .consent > p a {
           color: var(--anchor-color);
         }
-        
+
         .form > .consent > p a:hover {
           text-decoration: underline;
         }
@@ -866,18 +866,37 @@ export default class ListingDetails extends HTMLElement {
 					a {
 						cursor: default !important;
           }
-          
+
           .form > .consent > p {
             font-size: .8rem;
           }
-          
+
           .form > .consent > p > svg {
             min-width: 14px;
             min-height: 14px;
             color: var(--accent-color);
           }
 				}
+        /* at 700px */
+        @media all and (max-width: 700px) {
+          :host {
+            padding: 70px 10px;
+          }
+          /* reset all cursor: pointer */
+          a,
+          .actions > .btn,
+          ul.tabs > li.tab,
+          .pagination > button,
+          .pagination > .previous > .prev,
+          .pagination > .nexts > .next,
+          .pagination > .previous > .start,
+          .pagination > .nexts > .end,
+          .pagination > .previous > .page,
+          .pagination > .nexts > .page {
+            cursor: default !important;
+          }
+        }
 	    </style>
     `;
-	}
+  }
 }

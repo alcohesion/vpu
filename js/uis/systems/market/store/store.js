@@ -223,7 +223,7 @@ export default class StoreContainer extends HTMLElement {
   getProducts = () => {
     return /* html */`
       <div is="product-wrapper" product-image="/images/product/product-8.webp" name="Fresh Tea and is a very long name" last="33.25" store="The Vines Inn" reviews="120" average-review="4.5" wished="true" in-cart="0" quantity="45" price="33.25" store-country="KE"></div>
-      <div is="product-wrapper" product-image="/images/product/product-1.webp" name="Apple Fresh" last="25.00" store="Wendy's" reviews="85" average-review="3.8" wished="false" in-cart="2" quantity="32" price="25.00" store-country="US"></div>
+      <div is="product-wrapper" product-image="/images/product/product-1.webp" name="Apple Fresh" last="9625.00" store="Wendy's" reviews="85" average-review="3.8" wished="false" in-cart="2" quantity="32" price="9115.00" store-country="US"></div>
       <div is="product-wrapper" product-image="/images/product/product-2.webp" name="Banana Fresh" last="15.50" store="Trader Joe's" reviews="200" average-review="4.8" wished="true" in-cart="0" quantity="50" price="10.25" store-country="KE"></div>
       <div is="product-wrapper" product-image="/images/product/product-4.webp" name="Orange Fresh" last="20.75" store="Whole Foods" reviews="150" average-review="4.3" wished="false" in-cart="1" quantity="65" price="20.75" store-country="US"></div>
       <div is="product-wrapper" product-image="/images/product/product-5.webp" name="Grapes Fresh" last="18.00" store="Safeway" reviews="6987" average-review="4.1" wished="true" in-cart="0" quantity="73" price="32.50" store-country="US"></div>
@@ -794,8 +794,8 @@ export default class StoreContainer extends HTMLElement {
             padding: 20px 0;
             max-width: 100%;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin: 0;
           }
 
@@ -803,7 +803,16 @@ export default class StoreContainer extends HTMLElement {
             padding: 5px 0 25px;
           }
         }
-        
+        @media (max-width: 480px) {
+          .products {
+            padding: 20px 0;
+            max-width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 0;
+          }
+        }
       </style>
     `
   }

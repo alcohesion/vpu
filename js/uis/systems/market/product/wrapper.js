@@ -3,7 +3,7 @@ export default class ProductWrapper extends HTMLDivElement {
 
     // We are not even going to touch this.
     super();
-
+    this.app = window.app;
     // lets create our shadow root
     this.shadowObj = this.attachShadow({ mode: 'open' });
     this.utils = window.app.utils;
@@ -74,11 +74,12 @@ export default class ProductWrapper extends HTMLDivElement {
       <span class="was">
         <span class="strike"></span>
         <span class="currency">乇</span>
-        <span class="price">${this.utils.number.balanceWithCommas(this.lastPrice)}</span>
+        <span class="price">${this.utils.number.shorten(this.lastPrice)}</span>
       </span>
     `;
   }
 
+  // Todo: Fix mobile prices when number is 1k or more
   getBody() {
     const ratingsInt = this.utils.number.parseInteger(this.getAttribute('reviews'))
     const reviews = this.utils.number.shorten(ratingsInt)
@@ -313,6 +314,7 @@ export default class ProductWrapper extends HTMLDivElement {
 
         // remove class from the button
         content.classList.remove('wished');
+        this.app.showToast(true, 'Removed from wishlist');
         return;
       } else {
         // add the wished button and remove the wish button
@@ -320,6 +322,7 @@ export default class ProductWrapper extends HTMLDivElement {
 
         //add class to the button
         content.classList.add('wished');
+        this.app.showToast(true, 'Added to wishlist');
         return;
       }
     });
@@ -690,7 +693,7 @@ export default class ProductWrapper extends HTMLDivElement {
           width: 22px;
           height: 22px;
         }
-      
+
         .buttons > .button.add.out {
           pointer-events: none;
           opacity: 0.5;
@@ -869,18 +872,35 @@ export default class ProductWrapper extends HTMLDivElement {
             justify-content: center;
             color: inherit;
           }
-  
+
           .buttons > .button.added > .icon.remove  {
             color: var(--warn-color);
           }
-  
+
           .buttons > .button.added > .icon svg {
             width: 20px;
             height: 20px;
           }
         }
-        
+        /* Todo: This one changed */
+        @media (max-width: 450px) {
+          :host {
+            border: var(--border);
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 0;
+            width: 175px;
+            max-width: 175px;
+            min-width: 175px;
+            border-radius: 8px;
+          }
+        }
       </style>
     `
   }
+
+  // Todo: Add a method to calculate the discount percentage
 }

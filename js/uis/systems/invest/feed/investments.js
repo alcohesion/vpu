@@ -17,7 +17,7 @@ export default class InvestmentFeed extends HTMLElement {
 
   connectedCallback() {
     const tabs = this.shadowObj.querySelector("ul.tabs");
-    
+
     if (tabs) {
       this.activateTabController(tabs);
     }
@@ -250,7 +250,7 @@ export default class InvestmentFeed extends HTMLElement {
     }
 
     // anything greater than 6, return the last 3 pages and start page: 1
-    if(current >= 6) {
+    if (current >= 6) {
       // loop to create the previous pages
       let prev = /* html */`<button class="page prev start">1</button>`;
       for (let i = current - 3; i < current; i++) {
@@ -418,7 +418,7 @@ export default class InvestmentFeed extends HTMLElement {
           --c:var(--accent-color) 90%,#0000;
           --c1:var(--accent-alt)  90%,#0000;
           --c2:var(--alt-color)  90%,#0000;
-          background: 
+          background:
             radial-gradient(circle closest-side at left  10px top 50%,var(--c)),
             radial-gradient(circle closest-side                     ,var(--c1)),
             radial-gradient(circle closest-side at right 10px top 50%,var(--c2));
@@ -709,6 +709,25 @@ export default class InvestmentFeed extends HTMLElement {
             padding: 25px 0 20px;
           }
 				}
+        /* at 700px */
+        @media all and (max-width: 700px) {
+          :host {
+            padding: 70px 10px;
+          }
+          /* reset all cursor: pointer */
+          a,
+          .actions > .btn,
+          ul.tabs > li.tab,
+          .pagination > button,
+          .pagination > .previous > .prev,
+          .pagination > .nexts > .next,
+          .pagination > .previous > .start,
+          .pagination > .nexts > .end,
+          .pagination > .previous > .page,
+          .pagination > .nexts > .page {
+            cursor: default !important;
+          }
+        }
 	    </style>
     `;
   }

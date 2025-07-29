@@ -45,7 +45,7 @@ export default class InvestmentDetails extends HTMLElement {
     // return to 2 decimal places
     return remaining.toFixed(2);
   }
-  
+
   getTemplate = () => {
     // Show HTML Here
     return `
@@ -162,7 +162,7 @@ export default class InvestmentDetails extends HTMLElement {
       </div>
     `;
   }
-  
+
   getActions = () => {
     return /* html */`
       ${this.votedText(this.voted)}
@@ -198,9 +198,9 @@ export default class InvestmentDetails extends HTMLElement {
       down: "You downvoted this",
       none: "You haven't voted yet"
     };
-  
+
     const voteClass = voted === "up" ? "up" : voted === "down" ? "down" : "";
-  
+
     return /* html */`
       <span class="voted-text ${voteClass}">${voteMessages[voted] || voteMessages.none}</span>
     `;
@@ -217,14 +217,14 @@ export default class InvestmentDetails extends HTMLElement {
 
     return "none";
   }
-  
+
   getVoted = (voted, kind) => {
     const voteMap = {
       up: { up: this.upFilled, down: this.downUnfilled },
       down: { up: this.upUnfilled, down: this.downFilled },
       none: { up: this.upUnfilled, down: this.downUnfilled }
     };
-    
+
     return voteMap[voted]?.[kind]?.() || '';
   }
 
@@ -380,7 +380,7 @@ export default class InvestmentDetails extends HTMLElement {
     }
 
     // anything greater than 6, return the last 3 pages and start page: 1
-    if(current >= 6) {
+    if (current >= 6) {
       // loop to create the previous pages
       let prev = /* html */`<button class="page prev start">1</button>`;
       for (let i = current - 3; i < current; i++) {
@@ -1045,7 +1045,7 @@ export default class InvestmentDetails extends HTMLElement {
           color: var(--white-color);
         }
 
-				@media screen and (max-width:660px) {
+				@media screen and (max-width: 700px) {
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 					}
@@ -1058,7 +1058,7 @@ export default class InvestmentDetails extends HTMLElement {
           }
 
           :host {
-            padding: 0 0 20px;
+            padding: 70px 10px;
           }
 
           .content {

@@ -26,34 +26,48 @@ export default class HoldingAccount extends HTMLElement {
     }
 
     const outDays = [
-      { mon: { 
-        out: this.utils.number.parse(this.getAttribute("out-mon")),
-        in: this.utils.number.parse(this.getAttribute("in-mon"))
-      } },
-      { tue: {
-        out: this.utils.number.parse(this.getAttribute("out-tue")),
-        in: this.utils.number.parse(this.getAttribute("in-tue"))
-      } },
-      { wed: {
-        out: this.utils.number.parse(this.getAttribute("out-wed")),
-        in: this.utils.number.parse(this.getAttribute("in-wed"))
-      } },
-      { thu: {
-        out: this.utils.number.parse(this.getAttribute("out-thu")),
-        in: this.utils.number.parse(this.getAttribute("in-thu"))
-      } },
-      { fri: {
-        out: this.utils.number.parse(this.getAttribute("out-fri")),
-        in: this.utils.number.parse(this.getAttribute("in-fri"))
-      } },
-      { sat: {
-        out: this.utils.number.parse(this.getAttribute("out-sat")),
-        in: this.utils.number.parse(this.getAttribute("in-sat"))
-      } },
-      { sun: {
-        out: this.utils.number.parse(this.getAttribute("out-sun")),
-        in: this.utils.number.parse(this.getAttribute("in-sun"))
-      } }
+      {
+        mon: {
+          out: this.utils.number.parse(this.getAttribute("out-mon")),
+          in: this.utils.number.parse(this.getAttribute("in-mon"))
+        }
+      },
+      {
+        tue: {
+          out: this.utils.number.parse(this.getAttribute("out-tue")),
+          in: this.utils.number.parse(this.getAttribute("in-tue"))
+        }
+      },
+      {
+        wed: {
+          out: this.utils.number.parse(this.getAttribute("out-wed")),
+          in: this.utils.number.parse(this.getAttribute("in-wed"))
+        }
+      },
+      {
+        thu: {
+          out: this.utils.number.parse(this.getAttribute("out-thu")),
+          in: this.utils.number.parse(this.getAttribute("in-thu"))
+        }
+      },
+      {
+        fri: {
+          out: this.utils.number.parse(this.getAttribute("out-fri")),
+          in: this.utils.number.parse(this.getAttribute("in-fri"))
+        }
+      },
+      {
+        sat: {
+          out: this.utils.number.parse(this.getAttribute("out-sat")),
+          in: this.utils.number.parse(this.getAttribute("in-sat"))
+        }
+      },
+      {
+        sun: {
+          out: this.utils.number.parse(this.getAttribute("out-sun")),
+          in: this.utils.number.parse(this.getAttribute("in-sun"))
+        }
+      }
     ];
 
 
@@ -82,14 +96,14 @@ export default class HoldingAccount extends HTMLElement {
       limit
     }
   }
-  
+
   processDaysData = (days, limit) => {
     // Step 3: Calculate percentages and construct the result
     let daysWithPercentages = days.map(day => {
       let dayName = Object.keys(day)[0];
       let inValue = day[dayName].in;
       let outValue = day[dayName].out;
-  
+
       return {
         [dayName]: {
           in: inValue,
@@ -99,7 +113,7 @@ export default class HoldingAccount extends HTMLElement {
         }
       };
     });
-  
+
     return daysWithPercentages;
   }
 
@@ -121,7 +135,7 @@ export default class HoldingAccount extends HTMLElement {
 
     // if % is NaN, return 0
     if (isNaN(percentage)) percentage = 0;
-    
+
     // in one line: 
     return {
       percentage: Math.abs(percentage).toFixed(2),
@@ -142,7 +156,7 @@ export default class HoldingAccount extends HTMLElement {
 
     // select balance  amount
     const amount = balance.querySelector(".left .amount");
-    
+
     // add event listener to hide/show button
     hideShow.addEventListener("click", () => {
       // toggle the hide blur
@@ -212,7 +226,7 @@ export default class HoldingAccount extends HTMLElement {
   getInfo = () => {
     const account = this.getAttribute("account");
     // Using regex to replace all characters with X except the first three and last three
-    const hidden = account.replace(/(?<=.{3}).(?=.*.{3}$)/g, "X");  
+    const hidden = account.replace(/(?<=.{3}).(?=.*.{3}$)/g, "X");
     return /* html */`
       <div class="account">
         <span class="info">
@@ -503,7 +517,7 @@ export default class HoldingAccount extends HTMLElement {
       </div>
     `;
   }
-  
+
   getTransactions = () => {
     return /* html */`
       <div is="transaction-item" id="TAC534436534" name="Fredrick Ochieng" account="EAC763442H"
@@ -546,7 +560,7 @@ export default class HoldingAccount extends HTMLElement {
     `;
   }
 
-  getError = () =>  {
+  getError = () => {
     return /* html */`
       <div class="empty error">
         <h2 class="text">Error loading transactions</h2>
@@ -800,7 +814,7 @@ export default class HoldingAccount extends HTMLElement {
           font-size: .8rem;
           font-family: var(--font-text), sans-serif;
           font-weight: 500;
-          color: var(--anchor-color); 
+          color: var(--anchor-color);
         }
 
         div.account > span.status.inactive > .status {
@@ -901,7 +915,7 @@ export default class HoldingAccount extends HTMLElement {
           font-family: var(--font-main), sans-serif;
           font-weight: 500;
         }
-        
+
         div.section.quick-history > .transactions {
           display: flex;
           flex-flow: column;
@@ -1307,10 +1321,23 @@ export default class HoldingAccount extends HTMLElement {
           cursor: pointer;
         }
 
-				@media screen and (max-width:660px) {
+				@media screen and (max-width: 700px) {
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 					}
+
+          :host {
+            font-size: 16px;
+            padding: 70px 10px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            flex-flow: column;
+            height: max-content;
+            gap: 0;
+            width: 100%;
+            min-width: 100%;
+          }
           
           div.section ul.accounts li.account,
           div.balance .right .view-hide,

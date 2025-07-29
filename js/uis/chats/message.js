@@ -2,12 +2,12 @@ export default class Message extends HTMLDivElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'open' });
-    this.main = window.app.main;
     this.active_tab = null;
     this.editable = this.textToBoolean(this.getAttribute('you'));
     this.mql = window.matchMedia('(max-width: 660px)');
     this.container = this.app = this.getRootNode().host;
     this.reactions = this.getReaction(this.getAttribute('reactions'));
+    this.app = window.app;
     this.render();
   }
 
@@ -45,6 +45,7 @@ export default class Message extends HTMLDivElement {
   }
 
   connectedCallback() {
+    this.app = window.app;
     this.setupEditAction();
     this.showActionsDropdown();
     this.initalizeCopy(this.mql);
@@ -58,7 +59,7 @@ export default class Message extends HTMLDivElement {
       // select react action button and reactions container
       const react = this.shadow.querySelector('.content > .message > .actions > .action.react');
       const reactions = this.shadow.querySelector('.content > .message > .desktop-reactions');
-      if(react && reactions) {
+      if (react && reactions) {
         react.addEventListener('click', e => {
           e.preventDefault();
           e.stopPropagation();
@@ -88,7 +89,7 @@ export default class Message extends HTMLDivElement {
       }
     } else {
       const reactionsContainer = this.shadow.querySelector('.actions-dropdown');
-      if(reactionsContainer) {
+      if (reactionsContainer) {
         // react to message
         this.reactToMessage(reactionsContainer, you, 'mobile');
       }
@@ -109,15 +110,15 @@ export default class Message extends HTMLDivElement {
         const reactionData = reaction.dataset.reaction;
 
         // if the reaction is already active, remove it
-        if(you && this.reactions.from === reactionData) {
+        if (you && this.reactions.from === reactionData) {
           this.reactions.from = null;
           this.updateReactions(reactionsContainer, reactionData, { action: 'remove', kind: kind });
-        } else if(!you && this.reactions.to === reactionData) {
+        } else if (!you && this.reactions.to === reactionData) {
           this.reactions.to = null;
           this.updateReactions(reactionsContainer, reactionData, { action: 'remove', kind: kind });
         } else {
           // if the reaction is not active, add it
-          if(you) {
+          if (you) {
             this.reactions.from = reactionData;
             this.updateReactions(reactionsContainer, reactionData, { action: 'add', kind: kind });
           } else {
@@ -142,7 +143,7 @@ export default class Message extends HTMLDivElement {
     const updatedReaction = (nodes, reaction) => {
       nodes.forEach(node => {
         node.classList.remove('active');
-        if(node.dataset.reaction === reaction) {
+        if (node.dataset.reaction === reaction) {
           node.classList.add('active');
         }
       });
@@ -150,7 +151,7 @@ export default class Message extends HTMLDivElement {
 
     const removeReaction = (nodes, reaction) => {
       nodes.forEach(node => {
-        if(node.dataset.reaction === reaction) {
+        if (node.dataset.reaction === reaction) {
           node.classList.remove('active');
         }
       });
@@ -158,8 +159,8 @@ export default class Message extends HTMLDivElement {
 
     // update the reactions: active or remove
     const reactions = container.querySelectorAll('.reaction');
-    if(reactions) {
-      if(data.action === 'remove') {
+    if (reactions) {
+      if (data.action === 'remove') {
         removeReaction(reactions, reaction);
       } else {
         updatedReaction(reactions, reaction);
@@ -192,13 +193,13 @@ export default class Message extends HTMLDivElement {
     const content = this.shadow.querySelector('.content');
     const text = content.querySelector('.content > .message > .text');
     const messageReactions = text.querySelector('.user-reactions');
-    if(messageReactions) {
+    if (messageReactions) {
       // remove the current reactions
       messageReactions.remove();
     }
 
     //update content class: reacted or not
-    if(this.reactions.from || this.reactions.to) {
+    if (this.reactions.from || this.reactions.to) {
       content.classList.add('reacted');
       // insert the new reactions
       text.insertAdjacentHTML('beforeend', this.getUserReactions(this.reactions));
@@ -208,12 +209,12 @@ export default class Message extends HTMLDivElement {
   }
 
   initalizeCopy = mql => {
-    if(mql.matches) {
+    if (mql.matches) {
       const btn = this.shadow.querySelector('.actions-dropdown > .actions-container > .actions > span.action.copy');
-      if(btn) this.handleCopy(btn, true);
+      if (btn) this.handleCopy(btn, true);
     } else {
       const btn = this.shadow.querySelector('.content > .message > .actions > .action.copy');
-      if(btn) this.handleCopy(btn, false);
+      if (btn) this.handleCopy(btn, false);
     }
   }
 
@@ -226,20 +227,20 @@ export default class Message extends HTMLDivElement {
       try {
         const text = this.removeHTMLTags(this.innerHTML);
         navigator.clipboard.writeText(text);
-        await this.main.showToast(true, 'Message copied to clipboard');
+        await this.app.showToast(true, 'Message copied to clipboard');
       } catch (error) {
-        await this.main.showToast(false, 'Failed to copy message');
+        await this.app.showToast(false, 'Failed to copy message');
       }
 
       // if mobile, close the dropdown
-      if(mobile) this.closeContextMenu();
+      if (mobile) this.closeContextMenu();
     });
   }
 
   closeContextMenu = () => {
     this.container.openedContextNode = null;
     const actionsDropdown = this.shadow.querySelector('.actions-dropdown');
-    if(actionsDropdown) actionsDropdown.style.display = 'none';
+    if (actionsDropdown) actionsDropdown.style.display = 'none';
   }
 
   /* on right click the div.content, show the actions dropdown */
@@ -253,12 +254,12 @@ export default class Message extends HTMLDivElement {
       const actionsDropdown = this.shadow.querySelector('.actions-dropdown');
 
       // if openedContextNode is not null close it
-      if(openedContextNode) {
+      if (openedContextNode) {
         openedContextNode.closeContextMenu()
       }
 
       // if the openedContextNode is the same as this, set it to null and return
-      if(openedContextNode === this) return;
+      if (openedContextNode === this) return;
 
       this.container.openedContextNode = this;
 
@@ -322,7 +323,7 @@ export default class Message extends HTMLDivElement {
   handleReply = mql => {
     // get the reply action button
     const you = this.textToBoolean(this.getAttribute('you'));
-    
+
     if (!mql.matches) {
       const actions = this.shadow.querySelector('.content > .message > .actions');
 
@@ -356,8 +357,8 @@ export default class Message extends HTMLDivElement {
         if (kind === 'mobile') {
           this.closeContextMenu();
         }
-        });
-      }
+      });
+    }
   }
 
   textToBoolean = text => {
@@ -400,12 +401,12 @@ export default class Message extends HTMLDivElement {
   }
 
   formatDateTime = str => {
-		const date = new Date(str);
+    const date = new Date(str);
 
-		// get th, st, nd, rd for the date
-		const day = date.getDate();
-		const dayStr = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th';
-		const diff = new Date() - date;
+    // get th, st, nd, rd for the date
+    const day = date.getDate();
+    const dayStr = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th';
+    const diff = new Date() - date;
 
     // if we are in the same minute: Just now
     if (diff < 1000 * 60) {
@@ -447,10 +448,10 @@ export default class Message extends HTMLDivElement {
     }
 
     // if we are in a different year: 12th Jan 2021 at 11:59 PM
-		return /* html */`
+    return /* html */`
       ${date.getDate()}${dayStr} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()} at ${date.toLocaleString('default', { hour: 'numeric', minute: 'numeric', hour12: true }).toUpperCase()}
     `;
-	}
+  }
 
   getTemplate() {
     return /* html */`
@@ -579,7 +580,7 @@ export default class Message extends HTMLDivElement {
   }
 
   getUnread = (you, status) => {
-    if(!you) return '';
+    if (!you) return '';
 
     if (status === 'sent') {
       return /* html */`
@@ -604,7 +605,7 @@ export default class Message extends HTMLDivElement {
     }
   }
 
-  getStatusIcon = kind  => {
+  getStatusIcon = kind => {
     const icons = {
       sent: this.getSentIcon(),
       delivered: this.getDeliveredIcon(),
@@ -700,7 +701,7 @@ export default class Message extends HTMLDivElement {
 
   checkActiveReaction = (reactions, str, you) => {
     if (typeof reactions !== 'object' || !reactions) return '';
-    
+
     // if message is yours, check if the reaction is from you:: return active
     if (you && reactions.from === str) return 'active';
 
@@ -712,7 +713,7 @@ export default class Message extends HTMLDivElement {
 
   getUserReactions = reactions => {
     if (!reactions) return '';
-    if(reactions.from === null && reactions.to === null) return '';
+    if (reactions.from === null && reactions.to === null) return '';
     return /* html */`
       <span class="user-reactions">
         ${this.getActiveEmojis(reactions)}
@@ -723,7 +724,7 @@ export default class Message extends HTMLDivElement {
   getActiveEmojis = reactions => {
     if (!reactions) return '';
     if (reactions.from !== null && reactions.to !== null) {
-      if(reactions.from === reactions.to) {
+      if (reactions.from === reactions.to) {
         return /* html */`
           <span class="user-reaction ${reactions.from}">
             <span class="emoji">${this.getReactionEmoji(reactions.from)}</span>
@@ -738,14 +739,14 @@ export default class Message extends HTMLDivElement {
           </span>
         `;
       }
-    } else if(reactions.from !== null) {
+    } else if (reactions.from !== null) {
       return /* html */`
         <span class="user-reaction ${reactions.from}">
           <span class="emoji">${this.getReactionEmoji(reactions.from)}</span>
           <span class="count">1</span>
         </span>
       `;
-    } else if(reactions.to !== null) {
+    } else if (reactions.to !== null) {
       return /* html */`
         <span class="user-reaction ${reactions.to}">
           <span class="emoji">${this.getReactionEmoji(reactions.to)}</span>
@@ -886,74 +887,74 @@ export default class Message extends HTMLDivElement {
 
   getImages = () => {
     const images = this.imagesArray();
- 
-     if (images.length < 1) return '';
- 
-     const innerImages = images.map(image => {
-       return /* html */`
+
+    if (images.length < 1) return '';
+
+    const innerImages = images.map(image => {
+      return /* html */`
          <div class="image">
            <img src="${image}" alt="Image attachment">
          </div>
        `;
-     }).join('');
- 
-     return /* html */`
+    }).join('');
+
+    return /* html */`
        <div class="images">
          ${innerImages}
        </div>
      `;
-   }
- 
-   imagesArray = () => {
-     const images = this.getAttribute('images');
- 
-     if (!images || images === '' || images === 'null') {
-       return [];
-     } else {
-        try {
-         return images.split(',');
-        } catch (error) {
-          // console.error('Error parsing images', error);
-          return [];
-        }
-     }
-   }
- 
-   getAttachements = () => {
-     const attachements = this.attachementsArray();
- 
-     if (attachements.length < 1) return '';
- 
-     const innerAttachements = attachements.map(attachement => {
-       return /* html */`
+  }
+
+  imagesArray = () => {
+    const images = this.getAttribute('images');
+
+    if (!images || images === '' || images === 'null') {
+      return [];
+    } else {
+      try {
+        return images.split(',');
+      } catch (error) {
+        // console.error('Error parsing images', error);
+        return [];
+      }
+    }
+  }
+
+  getAttachements = () => {
+    const attachements = this.attachementsArray();
+
+    if (attachements.length < 1) return '';
+
+    const innerAttachements = attachements.map(attachement => {
+      return /* html */`
          <a href="${attachement.link}" target="_blank"
            title="${attachement.name}" size="${attachement.size}" type="${attachement.type}" download>
            ${attachement.name}
          </a>
        `;
-     }).join('');
- 
-     return /* html */`
+    }).join('');
+
+    return /* html */`
        <div class="attachements">
          ${innerAttachements}
        </div>
      `;
-   }
- 
-   attachementsArray = () => {
-     const attachements = this.getAttribute('attachments');
- 
-     if (!attachements || attachements === '' || attachements === 'null') {
-       return [];
-     } else {
-       try {
-         return JSON.parse(attachements);
-       } catch (error) {
-         // console.error('Error parsing attachments', error);
-         return [];
-       }
-     }
-   }
+  }
+
+  attachementsArray = () => {
+    const attachements = this.getAttribute('attachments');
+
+    if (!attachements || attachements === '' || attachements === 'null') {
+      return [];
+    } else {
+      try {
+        return JSON.parse(attachements);
+      } catch (error) {
+        // console.error('Error parsing attachments', error);
+        return [];
+      }
+    }
+  }
 
   getStyles = () => {
     return /* css */`

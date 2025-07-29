@@ -2,46 +2,46 @@ export default class NumberManager {
 	constructor() {
 		console.log("NumberManager");
 	}
-	
+
 	formatNumber(number, locale, options) {
 		return new Intl.NumberFormat(locale, options).format(number);
 	}
-	
+
 	formatCurrency(number, locale, currency) {
 		return new Intl.NumberFormat(locale, {
 			style: 'currency',
 			currency: currency
 		}).format(number);
 	}
-	
+
 	shortenNumber = str => {
 		try {
 			const num = parseInt(str);
-			
+
 			// less than a thousand: return the number
 			if (num < 1000) return num;
-			
+
 			// less than a 10,000: return the number with a k with two decimal places
 			if (num < 10000) return `${(num / 1000).toFixed(2)}k`;
-			
+
 			// less than a 100,000: return the number with a k with one decimal place
 			if (num < 100000) return `${(num / 1000).toFixed(1)}k`;
-			
+
 			// less than a million: return the number with a k with no decimal places
 			if (num < 1000000) return `${Math.floor(num / 1000)}k`;
-			
+
 			// less than a 10 million: return the number with an m with two decimal places
 			if (num < 10000000) return `${(num / 1000000).toFixed(2)}M`;
-			
+
 			// less than a 100 million: return the number with an m with one decimal place
 			if (num < 100000000) return `${(num / 1000000).toFixed(1)}M`;
-			
+
 			// less than a billion: return the number with an m with no decimal places
 			if (num < 1000000000) return `${Math.floor(num / 1000000)}M`;
-			
+
 			// a billion or more: return the number with a B+
 			if (num >= 1000000000) return `${Math.floor(num / 1000000000)}B+`;
-			
+
 			// else return the zero
 			return '0';
 		} catch (error) {
@@ -52,38 +52,38 @@ export default class NumberManager {
 	shorten = str => {
 		try {
 			const num = parseInt(str);
-			
+
 			// less than a thousand: return the number
 			if (num < 1000) return num;
-			
+
 			// less than a 10,000: return the number with a k with two decimal places
 			if (num < 10000) return `${Math.floor(num / 1000)}k`;
-			
+
 			// less than a 100,000: return the number with a k with one decimal place
 			if (num < 100000) return `${Math.floor(num / 1000)}k`;
-			
+
 			// less than a million: return the number with a k with no decimal places
 			if (num < 1000000) return `${Math.floor(num / 1000)}k`;
-			
+
 			// less than a 10 million: return the number with an m with two decimal places
 			if (num < 10000000) return `${(num / 1000000).toFixed(2)}M`;
-			
+
 			// less than a 100 million: return the number with an m with one decimal place
 			if (num < 100000000) return `${Math.floor(num / 1000000)}M`;
-			
+
 			// less than a billion: return the number with an m with no decimal places
 			if (num < 1000000000) return `${Math.floor(num / 1000000)}M`;
-			
+
 			// a billion or more: return the number with a B+
 			if (num >= 1000000000) return `${Math.floor(num / 1000000000)}B+`;
-			
+
 			// else return the zero
 			return '0';
 		} catch (error) {
 			return '0';
 		}
 	}
-	
+
 	withCommas = num => {
 		const parts = num.toString().split(".");
 		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -104,8 +104,8 @@ export default class NumberManager {
 
 			// return the number with two decimal places with commas
 			let parts = x.toString().split(".");
-    	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    	return parts.join(".");
+			parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return parts.join(".");
 		} catch (error) {
 			return '0.00';
 		}
@@ -119,10 +119,10 @@ export default class NumberManager {
 			return `0.${'0'.repeat(decimal)}`;
 		}
 	}
-	
+
 	parse = (str) => {
 		try {
-			let x  = parseFloat(str);
+			let x = parseFloat(str);
 			// if x is NaN, return 0
 			if (isNaN(x)) return 0;
 			// else return x
@@ -134,7 +134,7 @@ export default class NumberManager {
 
 	parseInteger = (str) => {
 		try {
-			let x  = parseInt(str);
+			let x = parseInt(str);
 			// if x is NaN, return 0
 			if (isNaN(x)) return 0;
 			// else return x

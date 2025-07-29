@@ -31,8 +31,8 @@ export default class MessagingContainer extends HTMLElement {
 
   setReply = data => {
     const editor = this.shadow.querySelector('.editor');
-    
-    if(editor) {
+
+    if (editor) {
       // select textarea
       const textarea = editor.querySelector('textarea#message');
       // select existing reply element
@@ -82,7 +82,7 @@ export default class MessagingContainer extends HTMLElement {
     const expand = actionsContainer.querySelector('div.expand');
     // select expand icon(svg)
     const icon = expand.querySelector('svg');
-    
+
     const adjustRows = () => {
       const maxRows = 5;
       const style = window.getComputedStyle(input);
@@ -90,7 +90,7 @@ export default class MessagingContainer extends HTMLElement {
 
       // rotate the expand button
       icon.style.transform = 'rotate(0deg)';
-      
+
       // Calculate the height offset (padding + border)
       const paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
       const borderHeight = parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10);
@@ -187,7 +187,7 @@ export default class MessagingContainer extends HTMLElement {
         return;
       }
     })
-    
+
     // Initial adjustment on page load
     adjustRows();
   }
@@ -278,12 +278,12 @@ export default class MessagingContainer extends HTMLElement {
   }
 
   formatDateTime = str => {
-		const date = new Date(str);
+    const date = new Date(str);
 
-		// get th, st, nd, rd for the date
-		const day = date.getDate();
-		const dayStr = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th';
-		const diff = new Date() - date;
+    // get th, st, nd, rd for the date
+    const day = date.getDate();
+    const dayStr = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th';
+    const diff = new Date() - date;
 
     // if we are in the same minute: Just now
     if (diff < 1000 * 60) {
@@ -319,10 +319,10 @@ export default class MessagingContainer extends HTMLElement {
     }
 
     // if we are in a different year: 12th Jan 2021 at 11:59 PM
-		return /* html */`
+    return /* html */`
       ${date.getDate()}${dayStr} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()} at ${date.toLocaleString('default', { hour: 'numeric', minute: 'numeric', hour12: true })}
     `;
-	}
+  }
 
   getTemplate() {
     return /* html */`
@@ -618,7 +618,7 @@ export default class MessagingContainer extends HTMLElement {
     `;
   }
 
-  getReply = ({id: _id, user: replyUser, you: toYou, text: replyText}) => {
+  getReply = ({ id: _id, user: replyUser, you: toYou, text: replyText }) => {
     // if both are null or empty, return nothing
     if (!replyText || replyText.trim() === '' || replyText.trim().length === 0) return '';
 
@@ -627,7 +627,7 @@ export default class MessagingContainer extends HTMLElement {
       text = 'Replying to yourself';
     } else {
       text = `Replying to ${replyUser}`;
-    } 
+    }
 
     return /* html */`
       <div class="reply">

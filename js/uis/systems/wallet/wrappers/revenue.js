@@ -33,14 +33,14 @@ export default class RevenueAccount extends HTMLElement {
       transferred: this.calculatePercentage(current.transferred, last.transferred)
     }
   }
-  
+
   processDaysData = (days, limit) => {
     // Step 3: Calculate percentages and construct the result
     let daysWithPercentages = days.map(day => {
       let dayName = Object.keys(day)[0];
       let inValue = day[dayName].in;
       let outValue = day[dayName].out;
-  
+
       return {
         [dayName]: {
           in: inValue,
@@ -50,7 +50,7 @@ export default class RevenueAccount extends HTMLElement {
         }
       };
     });
-  
+
     return daysWithPercentages;
   }
 
@@ -72,7 +72,7 @@ export default class RevenueAccount extends HTMLElement {
 
     // if % is NaN, return 0
     if (isNaN(percentage)) percentage = 0;
-    
+
     // in one line: 
     return {
       percentage: Math.abs(percentage).toFixed(2),
@@ -93,7 +93,7 @@ export default class RevenueAccount extends HTMLElement {
 
     // select balance  amount
     const amount = balance.querySelector(".left .amount");
-    
+
     // add event listener to hide/show button
     hideShow.addEventListener("click", () => {
       // toggle the hide blur
@@ -163,7 +163,7 @@ export default class RevenueAccount extends HTMLElement {
   getInfo = () => {
     const account = this.getAttribute("account");
     // Using regex to replace all characters with X except the first three and last three
-    const hidden = account.replace(/(?<=.{3}).(?=.*.{3}$)/g, "X");  
+    const hidden = account.replace(/(?<=.{3}).(?=.*.{3}$)/g, "X");
     return /* html */`
       <div class="account">
         <span class="info">
@@ -323,36 +323,40 @@ export default class RevenueAccount extends HTMLElement {
       </div>
     `;
   }
-  
+
   getTransactions = () => {
     return /* html */`
-      <div is="transaction-item" id="TAC534436534" name="Fredrick Ochieng" account="EAC763442H"
+      <div is="transaction-item" id="TAC534436534" name="Fredrick Ochieng" account="THA763442H" account-kind="Holding"
         amount="2734.65" datetime="2021-09-12T12:00:00Z" image="https://randomuser.me/api/portraits/men/1.jpg"
-        kind="received" status="completed" received="true">
+        kind="received" status="completed" note="Payment for services rendered" in="true">
       </div>
-      <div is="transaction-item" id="TAC534436535" name="Jane Smith" account="EAC763442H"
-        amount="950.43" datetime="2021-09-13T14:00:00Z"
-        kind="sent" status="completed" received="true">
+      <div is="transaction-item" id="TAC534436535" name="Loan Account" account="THA763442H"
+        amount="950.43" datetime="2021-09-13T14:00:00Z" account-kind="Loan"
+        kind="repay" status="completed" note="Loan repayment" in="false">
       </div>
-      <div is="transaction-item" id="TAC534436536" name="Alice Johnson" account="EAC763442H"
+      <div is="transaction-item" id="TAC534436536" name="Alice Johnson" account="THA763442H" account-kind="Investment"
         amount="9816.81" datetime="2021-09-14T16:00:00Z" image="https://randomuser.me/api/portraits/women/15.jpg"
-        kind="received" status="completed" received="false">
+        kind="deposit" status="completed" note="Deposit from client" in="true">
       </div>
-      <div is="transaction-item" id="TAC534436537" name="Bob Brown" account="EAC763442H"
-        amount="755.65" datetime="2021-09-15T18:00:00Z"
-        kind="sent" status="completed" received="false">
+      <div is="transaction-item" id="TAC534436537" name="Bob Brown" account="THA763442H"
+        amount="755.65" datetime="2021-09-15T18:00:00Z" account-kind="Holding"
+        kind="send" status="completed" note="Payment for services rendered" in="false">
       </div>
-      <div is="transaction-item" id="TAC534436542" name="Grace Harris" account="EAC763442H"
+      <div is="transaction-item" id="TAC534436542" name="Grace Harris" account="THA763442H" account-kind="Investment"
         amount="700.00" datetime="2021-09-20T16:00:00Z" image="https://randomuser.me/api/portraits/men/1.jpg"
-        kind="received" status="completed" received="false">
+        kind="apply" status="completed" note="Applied for loan" in="true">
       </div>
-      <div is="transaction-item" id="TAC534436543" name="Henry Irving" account="EAC763442H"
+      <div is="transaction-item" id="TAC534436543" name="Henry Irving" account="THA763442H" account-kind="Investment"
         amount="800.00" datetime="2024-09-21T18:00:00Z" image="https://randomuser.me/api/portraits/men/11.jpg"
-        kind="sent" status="completed" received="true">
+        kind="pay" status="completed" note="Payment for services rendered" in="false">
       </div>
-      <div is="transaction-item" id="TAC534436544" name="Ivy Johnson" account="EAC763442H"
-        amount="900.00" datetime="2021-09-22T20:00:00Z"
-        kind="received" status="completed" received="true">
+      <div is="transaction-item" id="TAC534436544" name="Ivy Johnson" account="THA763442H"
+        amount="900.00" datetime="2021-09-22T20:00:00Z" account-kind="Revenue"
+        kind="withdraw" status="completed" note="Withdrawal from account" in="false"> 
+      </div>
+      <div is="transaction-item" id="TAC534436544" name="Mpesa Deposit" account="THA763442H"
+        amount="2358.00" datetime="2024-10-13T20:45:00Z" account-kind="Holding"
+        kind="Deposit" status="completed" note="Deposit from MPESA" in="true"> 
       </div>
     `;
   }
@@ -366,7 +370,7 @@ export default class RevenueAccount extends HTMLElement {
     `;
   }
 
-  getError = () =>  {
+  getError = () => {
     return /* html */`
       <div class="empty error">
         <h2 class="text">Error loading transactions</h2>
@@ -620,7 +624,7 @@ export default class RevenueAccount extends HTMLElement {
           font-size: .8rem;
           font-family: var(--font-text), sans-serif;
           font-weight: 500;
-          color: var(--anchor-color); 
+          color: var(--anchor-color);
         }
 
         div.account > span.status.inactive > .status {
@@ -721,7 +725,7 @@ export default class RevenueAccount extends HTMLElement {
           font-family: var(--font-main), sans-serif;
           font-weight: 500;
         }
-        
+
         div.section.quick-history > .transactions {
           display: flex;
           flex-flow: column;
@@ -940,6 +944,12 @@ export default class RevenueAccount extends HTMLElement {
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 					}
+
+          :host {
+            font-size: 16px;
+            padding: 70px 10px;
+            margin: 0;
+          }
           
           div.section ul.accounts li.account,
           div.balance .right .view-hide,

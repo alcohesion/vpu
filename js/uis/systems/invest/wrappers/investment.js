@@ -23,7 +23,7 @@ export default class InvestmentWrapper extends HTMLElement {
   capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-  
+
   getTemplate = () => {
     // Show HTML Here
     return `
@@ -75,7 +75,7 @@ export default class InvestmentWrapper extends HTMLElement {
     // remove <> tags from string
     str = str.replace(/<[^>]*>?/gm, '');
 
-    if(mql.matches) {
+    if (mql.matches) {
       return str.length > 150 ? str.slice(0, 150) + "..." : str;
     }
     return str.length > 99 ? str.slice(0, 99) + "..." : str;
@@ -168,7 +168,7 @@ export default class InvestmentWrapper extends HTMLElement {
       down: { up: this.upUnfilled, down: this.downFilled },
       none: { up: this.upUnfilled, down: this.downUnfilled }
     };
-  
+
     return voteMap[voted]?.[kind]?.() || '';
   }
 
@@ -643,7 +643,9 @@ export default class InvestmentWrapper extends HTMLElement {
           color: var(--gray-color);
         }
 
-				@media screen and (max-width:660px) {
+        
+
+				@media all and (max-width: 700px) {
 					::-webkit-scrollbar {
 						-webkit-appearance: none;
 					}
@@ -651,7 +653,7 @@ export default class InvestmentWrapper extends HTMLElement {
           :host {
             margin: 0;
             border-bottom: var(--action-border);
-            padding: 20px 0;
+            padding: 70px 10px;
           }
 
 					a,
@@ -662,7 +664,7 @@ export default class InvestmentWrapper extends HTMLElement {
           }
 
           .content {
-            padding: 0 2px;
+            padding: 0;
             margin: 0;
             background: var(--background);
             border-radius: 0;

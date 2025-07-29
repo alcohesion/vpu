@@ -1,66 +1,66 @@
 export default class ListingWrapper extends HTMLDivElement {
-	constructor() {
-		super();
-		this.shadowObj = this.attachShadow({ mode: "open" });
+  constructor() {
+    super();
+    this.shadowObj = this.attachShadow({ mode: "open" });
     this.utils = window.app.utils;
-		this.soldPercentage = this.getPercentageSold(this.getAttribute("sold"), this.getAttribute("shares"));
-		this.available = this.getRemainingShares(this.getAttribute("sold"), this.getAttribute("shares"));
-		this.render();
-	}
-	
-	render() {
-		this.shadowObj.innerHTML = this.getTemplate();
-	}
-	
-	// noinspection JSUnusedGlobalSymbols
-	connectedCallback() {
-		// console.log("Connected");
-	}
-	
-	getPercentageSold = (sold, total) => {
-		sold = this.utils.number.parse(sold);
-		total = this.utils.number.parse(total);
-		
-		return this.calculatePercentage(sold, total);
-	}
-	
-	getRemainingShares = (sold, total) => {
-		sold = this.utils.number.parse(sold);
-		total = this.utils.number.parse(total);
-		
-		return total - sold;
-	}
-	
-	calculatePercentage = (num, total) => {
-		if (total === 0) return 0;
-		if (num >= total) return 100;
-		return ((num / total) * 100).toFixed(num % total !== 0 ? 2 : 0);
-	}
-	
-	capitalize = (str) => {
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-	
-	getTemplate = () => {
-		// Show HTML Here
-		return `
+    this.soldPercentage = this.getPercentageSold(this.getAttribute("sold"), this.getAttribute("shares"));
+    this.available = this.getRemainingShares(this.getAttribute("sold"), this.getAttribute("shares"));
+    this.render();
+  }
+
+  render() {
+    this.shadowObj.innerHTML = this.getTemplate();
+  }
+
+  // noinspection JSUnusedGlobalSymbols
+  connectedCallback() {
+    // console.log("Connected");
+  }
+
+  getPercentageSold = (sold, total) => {
+    sold = this.utils.number.parse(sold);
+    total = this.utils.number.parse(total);
+
+    return this.calculatePercentage(sold, total);
+  }
+
+  getRemainingShares = (sold, total) => {
+    sold = this.utils.number.parse(sold);
+    total = this.utils.number.parse(total);
+
+    return total - sold;
+  }
+
+  calculatePercentage = (num, total) => {
+    if (total === 0) return 0;
+    if (num >= total) return 100;
+    return ((num / total) * 100).toFixed(num % total !== 0 ? 2 : 0);
+  }
+
+  capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  getTemplate = () => {
+    // Show HTML Here
+    return `
       ${this.getBody()}
       ${this.getStyles()}
     `;
-	}
-	
-	getBody = () => {
-		return /* html */`
+  }
+
+  getBody = () => {
+    return /* html */`
       <div class="content">
         ${this.getHead()}
         ${this.getInfo()}
       </div>
       ${this.getActions()}
     `;
-	}
-	
-	getHead = () => {
-		return /* html */`
+  }
+
+  getHead = () => {
+    return /* html */`
       <div class="head">
         <div class="avatar">
           <img class="image" src="${this.getAttribute("user-picture")}" alt="User Image" />
@@ -71,10 +71,10 @@ export default class ListingWrapper extends HTMLDivElement {
         </span>
       </div>
     `;
-	}
+  }
 
   getInfo = () => {
-		return /* html */`
+    return /* html */`
       <div class="investment">
         <h2 class="name">${this.getAttribute("shares-name")}</h2>
         <span class="category">${this.capitalize(this.getAttribute("category"))}</span>
@@ -83,7 +83,7 @@ export default class ListingWrapper extends HTMLDivElement {
       ${this.getDesc()}
       ${this.getROI()}
     `;
-	}
+  }
 
   getDesc = () => {
     return /* html */`
@@ -92,7 +92,7 @@ export default class ListingWrapper extends HTMLDivElement {
       </div>
     `;
   }
-	
+
   getPrice = () => {
     return /* html */`
       <div class="info price-info">
@@ -133,9 +133,9 @@ export default class ListingWrapper extends HTMLDivElement {
     </div>
     `;
   }
-	
-	getActions = () => {
-		return /* html */`
+
+  getActions = () => {
+    return /* html */`
       <div class="actions">
         ${this.getAvailable(this.available)}
         <div class="buttons">
@@ -145,27 +145,27 @@ export default class ListingWrapper extends HTMLDivElement {
         </div>
       </div>
     `;
-	}
-	
-	getAvailable = available => {
-		if (available === 0 || available < 0) {
-			return /* html */`
+  }
+
+  getAvailable = available => {
+    if (available === 0 || available < 0) {
+      return /* html */`
         <div class="available">
           <span class="label">No Shares Available for Sale</span>
         </div>
       `;
-		} else {
-			return /* html */`
+    } else {
+      return /* html */`
         <div class="available">
           <span class="value">${this.utils.number.withCommas(available)}</span>
           <span class="label">Shares are still available</span>
         </div>
       `;
-		}
-	}
-	
-	getStyles() {
-		return /* css */`
+    }
+  }
+
+  getStyles() {
+    return /* css */`
 	    <style>
 	      *,
 	      *:after,
@@ -254,7 +254,7 @@ export default class ListingWrapper extends HTMLDivElement {
           height: 100%;
           object-fit: cover;
         }
-        
+
         .head > .name {
           display: flex;
           flex-flow: column;
@@ -569,7 +569,26 @@ export default class ListingWrapper extends HTMLDivElement {
             font-weight: 600;
           }
 				}
+        /* at 700px */
+        @media all and (max-width: 700px) {
+          :host {
+            padding: 70px 10px;
+          }
+          /* reset all cursor: pointer */
+          a,
+          .actions > .btn,
+          ul.tabs > li.tab,
+          .pagination > button,
+          .pagination > .previous > .prev,
+          .pagination > .nexts > .next,
+          .pagination > .previous > .start,
+          .pagination > .nexts > .end,
+          .pagination > .previous > .page,
+          .pagination > .nexts > .page {
+            cursor: default !important;
+          }
+        }
 	    </style>
     `;
-	}
+  }
 }

@@ -115,7 +115,7 @@ export default class AppMain extends HTMLElement {
         ${this.getMobileHeader()}
         <section class="flow">
          <!-- ${this.getSidebar()}-->
-          ${this.getCartContainer()}
+          ${this.getRevenueAccount()}
         </section>
         <section class="nav">
           ${this.getMobileNav()}
@@ -131,7 +131,7 @@ export default class AppMain extends HTMLElement {
         <section class="flow">
           <div id="content-container" class="content-container">
             <!--${this.getLoader()}-->
-            ${this.getStoreContainer()}
+            ${this.getRevenueAccount()}
           </div>
           ${this.getFooter()}
         </section>

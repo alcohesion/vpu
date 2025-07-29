@@ -71,7 +71,6 @@ export default class ChatApp extends HTMLElement {
   getTemplate() {
     return /* html */`
       ${this.getChatsContainer()}
-      <!--${this.getMessagingContainer()}-->
       ${this.getStyles()}
     `;
   }
@@ -111,15 +110,6 @@ export default class ChatApp extends HTMLElement {
           </button>
         </div>
       </div>
-    `;
-  }
-
-  getMessagingContainer = () => {
-    return /* html */`
-      <chat-container user-picture="https://randomuser.me/api/portraits/men/1.jpg"
-        user-name="Dr Sarah Hannah" unread="0" active="true" user-verified="true"
-        message="I have attached the needed documents below!" last-active="2024-12-26T01:25:15Z">
-      </chat-container>
     `;
   }
 
