@@ -131,7 +131,7 @@ export default class AppMain extends HTMLElement {
         <section class="flow">
           <div id="content-container" class="content-container">
             <!--${this.getLoader()}-->
-            ${this.getShots()}
+            ${this.getStoreContainer()}
           </div>
           ${this.getFooter()}
         </section>
@@ -677,7 +677,7 @@ export default class AppMain extends HTMLElement {
 
   getShots = () => {
     return /* html */`
-      <shots-videos api="/shots/fyp" name="For You" type="fyp"></shots-videos>
+      <shots-section api="/shots/fyp" name="For You" type="fyp"></shots-section>
     `;
   }
 
